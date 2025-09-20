@@ -1,7 +1,10 @@
+import 'package:auth_api/ui/screens/profile_screen.dart';
 import 'package:auth_api/ui/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 
+import 'framework/repository/register/model/token_model.dart';
 import 'framework/utils/hive/hive_initialise.dart';
 
 void main() async {
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: RegisterScreen(),
+      home: (Hive.box<TokensModel>('auth_tokens').isEmpty)?RegisterScreen():ProfileScreen(),
     );
   }
 }
