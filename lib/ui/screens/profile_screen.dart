@@ -40,15 +40,43 @@ class ProfileScreen extends ConsumerWidget {
                         ? Center(child: Text('No image found'))
                         : null,
                   ),
-                  Text('First Name: ${data.data?.user?.firstName ?? ''}'),
-                  Text('Last Name: ${data.data?.user?.lastName ?? ''}'),
-                  Text('User Name: ${data.data?.user?.username ?? ''}'),
-                  Text('Email: ${data.data?.user?.email ?? ''}'),
-                  Text('Phone No.: ${data.data?.user?.phone ?? ''}'),
-                  Text(
-                    'Birth date: ${data.data?.user?.dateOfBirth.toString().substring(0, 11) ?? ''}',
+                  SizedBox(height: 15),
+                  Center(
+                    child: Text(
+                      'First Name: ${data.data?.user?.firstName ?? ''}',
+                    ),
                   ),
-                  Text('Last Login: ${data.data?.user?.lastLogin ?? ''}'),
+                  SizedBox(height: 15),
+                  Center(
+                    child: Text(
+                      'Last Name: ${data.data?.user?.lastName ?? ''}',
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Center(
+                    child: Text(
+                      'User Name: ${data.data?.user?.username ?? ''}',
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Center(child: Text('Email: ${data.data?.user?.email ?? ''}')),
+                  SizedBox(height: 15),
+                  Center(
+                    child: Text('Phone No.: ${data.data?.user?.phone ?? ''}'),
+                  ),
+                  SizedBox(height: 15),
+                  Center(
+                    child: Text(
+                      'Birth date: ${data.data?.user?.dateOfBirth.toString().substring(0, 11) ?? ''}',
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Center(
+                    child: Text(
+                      'Last Login: ${data.data?.user?.lastLogin ?? ''}',
+                    ),
+                  ),
+                  SizedBox(height: 15),
                   Align(
                     alignment: Alignment.center,
                     child: CommonButton(
@@ -76,17 +104,18 @@ class ProfileScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  SizedBox(height: 15),
                   Align(
                     alignment: Alignment.center,
                     child: CommonButton(
                       onPressed: () async {
                         await ref.read(logOutProvider.notifier).logout();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
-                            ),
-                          );
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginScreen(),
+                          ),
+                        );
                       },
                       child: Text(
                         'Logout',

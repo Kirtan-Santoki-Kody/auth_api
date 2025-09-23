@@ -177,10 +177,7 @@ class RegisterScreen extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Text(
-                                ref
-                                    .watch(registerProvider)
-                                    .toString()
-                                    .substring(0, 11),
+                                'Birth date: ${ref.watch(registerProvider).toString().substring(0, 11)}',
                               ),
                               CommonButton(
                                 onPressed: () async {

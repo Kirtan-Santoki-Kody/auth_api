@@ -116,13 +116,14 @@ class UpdateProfileScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      ref.watch(registerProvider).toString().substring(0, 11),
+                      'Birth Date: ${ref.watch(registerProvider).toString().substring(0, 11)}'
                     ),
                     CommonButton(
                       onPressed: () async {
                         registerRead.updateDate(
                           (await showDatePicker(
                             context: context,
+                            initialDate: ref.watch(registerProvider),
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now(),
                           ))!,
