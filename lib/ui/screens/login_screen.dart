@@ -82,8 +82,8 @@ class LoginScreen extends ConsumerWidget {
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   await loginRead.login();
-                                  if(loginWatch.hasError){
-                                    Center(child: Text(loginWatch.error.toString()));
+                                  if(loginWatch.value?.data == null){
+                                    Center(child: Text(loginWatch.value!.message.toString()));
                                   }else{
                                     Navigator.pushReplacement(
                                       context,

@@ -26,7 +26,7 @@ class LoginRepo implements LoginContract{
         );
         return LoginModel.fromJson(response.data);
       }else{
-        return LoginModel();
+        throw Exception(response.data);
       }
     }on DioException catch (e) {
       print(e);
