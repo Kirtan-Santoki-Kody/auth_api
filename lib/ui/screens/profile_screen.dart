@@ -31,14 +31,12 @@ class ProfileScreen extends ConsumerWidget {
                 children: [
                   CircleAvatar(
                     radius: 80,
-                    backgroundImage: (ref.watch(imageProvider).isEmpty)
-                        ? null
-                        : (data.data?.user?.profileImage != null)
+                    backgroundImage: (data.data?.user?.profileImage != null)
                         ? CachedNetworkImageProvider(
                             data.data?.user?.profileImage,
                           )
-                        : FileImage(File(ref.watch(imageProvider))),
-                    child: (ref.watch(imageProvider).isEmpty)
+                        : null,
+                    child: (data.data?.user?.profileImage == null)
                         ? Center(child: Text('No image found'))
                         : null,
                   ),
@@ -47,21 +45,34 @@ class ProfileScreen extends ConsumerWidget {
                   Text('User Name: ${data.data?.user?.username ?? ''}'),
                   Text('Email: ${data.data?.user?.email ?? ''}'),
                   Text('Phone No.: ${data.data?.user?.phone ?? ''}'),
-                  Text('Birth date: ${data.data?.user?.dateOfBirth.toString().substring(0,11) ?? ''}'),
+                  Text(
+                    'Birth date: ${data.data?.user?.dateOfBirth.toString().substring(0, 11) ?? ''}',
+                  ),
                   Text('Last Login: ${data.data?.user?.lastLogin ?? ''}'),
                   Align(
                     alignment: Alignment.center,
                     child: CommonButton(
                       onPressed: () {
-                        ref.watch(registerProvider.notifier).updateDate(data.data?.user?.dateOfBirth ?? DateTime.now());
+                        ref
+                            .watch(registerProvider.notifier)
+                            .updateDate(
+                              data.data?.user?.dateOfBirth ?? DateTime.now(),
+                            );
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => UpdateProfileScreen(firstName: data.data?.user?.firstName ?? '', lastName: data.data?.user?.lastName ?? '', phoneNo: data.data?.user?.phone ?? '',),
+                            builder: (context) => UpdateProfileScreen(
+                              firstName: data.data?.user?.firstName ?? '',
+                              lastName: data.data?.user?.lastName ?? '',
+                              phoneNo: data.data?.user?.phone ?? '',
+                            ),
                           ),
                         );
                       },
-                      child: Text('Update Profile',style: TextStyle(color: AppColors.white)),
+                      child: Text(
+                        'Update Profile',
+                        style: TextStyle(color: AppColors.white),
+                      ),
                     ),
                   ),
                   Align(
