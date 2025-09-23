@@ -15,6 +15,7 @@ class LoginScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormState>();
     var loginRead = ref.read(loginProvider.notifier);
+    var loginWatch = ref.watch(loginProvider);
     return Scaffold(
       appBar: AppBar(title: Text('Login Screen')),
       body: Container(
@@ -79,18 +80,14 @@ class LoginScreen extends ConsumerWidget {
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
                                 await loginRead.login();
-                                if (loginRead.loginState.success?.success ??
-                                    false) {
-                                  loginRead.emailController.clear();
-                                  loginRead.passwordController.clear();
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProfileScreen(),
-                                    ),
-                                  );
-
-                                }
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProfileScreen(),
+                                  ),
+                                );
+                                loginRead.emailController.clear();
+                                loginRead.passwordController.clear();
                               }
                             },
                             child: Text(
@@ -98,9 +95,17 @@ class LoginScreen extends ConsumerWidget {
                               style: TextStyle(color: AppColors.white),
                             ),
                           ),
-                          Visibility(
-                            visible: loginRead.loginState.isLoading,
-                            child: CircularProgressIndicator(),
+                          SizedBox(height: 20),
+                          loginWatch.when(
+                            data: (data) {
+                              return Container();
+                            },
+                            error: (err, stack) {
+                              return Center(child: Text(err.toString()));
+                            },
+                            loading: () {
+                              return Center(child: CircularProgressIndicator());
+                            },
                           ),
                         ],
                       ),

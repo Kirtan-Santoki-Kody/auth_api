@@ -33,7 +33,7 @@ class UpdateProfileScreen extends ConsumerWidget {
     var updateRead = ref.read(updateProfileProvider.notifier);
     var registerRead = ref.read(registerProvider.notifier);
     var updateWatch = ref.watch(updateProfileProvider);
-    var uploadImageWatch = ref.watch(uploadImageProvider);
+    var uploadImage = ref.watch(uploadImageProvider);
     return Scaffold(
       appBar: AppBar(title: Text('Update Profile')),
       body: Center(
@@ -53,12 +53,15 @@ class UpdateProfileScreen extends ConsumerWidget {
                   },
                   child: CircleAvatar(
                     radius: 80,
-                    backgroundImage: (ref.watch(imageProvider).isEmpty)
-                        ? null
-                        : (image != null)
+                    backgroundImage:
+                        (image != null && ref.watch(imageProvider).isNotEmpty)
+                        ? FileImage(File(ref.watch(imageProvider)))
+                        : (image != null && ref.watch(imageProvider).isEmpty)
                         ? CachedNetworkImageProvider(image!)
-                        : FileImage(File(ref.watch(imageProvider))),
-                    child: (ref.watch(imageProvider).isEmpty)
+                        : (image == null && ref.watch(imageProvider).isNotEmpty)
+                        ? FileImage(File(ref.watch(imageProvider)))
+                        : null,
+                    child: (ref.watch(imageProvider).isEmpty && image == null)
                         ? Center(child: Text('No image found'))
                         : null,
                   ),
@@ -113,10 +116,7 @@ class UpdateProfileScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      ref
-                                .watch(registerProvider)
-                                .toString()
-                                .substring(0, 11),
+                      ref.watch(registerProvider).toString().substring(0, 11),
                     ),
                     CommonButton(
                       onPressed: () async {
@@ -140,30 +140,45 @@ class UpdateProfileScreen extends ConsumerWidget {
                   alignment: Alignment.center,
                   child: CommonButton(
                     onPressed: () async {
-                      if(formKey.currentState!.validate()){
-                        await updateRead.updateProfile();
-                        if(ref.watch(imageProvider).isNotEmpty){
-                          await ref.read(uploadImageProvider.notifier).uploadImage();
+                      if (formKey.currentState!.validate()) {
+                        if (ref.watch(imageProvider).isNotEmpty) {
+                          await ref
+                              .read(uploadImageProvider.notifier)
+                              .uploadImage();
                         }
-                        print('value message');
-                        print(updateWatch.value?.message);
-                        // if(updateWatch.value?.message != null || uploadImageWatch.value?.message != null){
-                          Navigator.pop(context);
-                          ref.invalidate(updateProfileProvider);
-                        // }
+                        await updateRead.updateProfile();
+                        Navigator.pop(context);
+                        ref.invalidate(updateProfileProvider);
                       }
                     },
-                    child: Text('Update', style: TextStyle(color: AppColors.white)),
+                    child: Text(
+                      'Update',
+                      style: TextStyle(color: AppColors.white),
+                    ),
                   ),
                 ),
-                SizedBox(height: 20,),
-                updateWatch.when(data: (data){
-                  return Container();
-                }, error: (err, stack){
-                  return Center(child: Text(err.toString()),);
-                }, loading: (){
-                  return Center(child: CircularProgressIndicator(),);
-                })
+                SizedBox(height: 20),
+                uploadImage.when(
+                  data: (data) {
+                    return updateWatch.when(
+                      data: (data) {
+                        return Container();
+                      },
+                      error: (err, stack) {
+                        return Center(child: Text(err.toString()));
+                      },
+                      loading: () {
+                        return Center(child: CircularProgressIndicator());
+                      },
+                    );
+                  },
+                  error: (err, stack) {
+                    return Center(child: Text(err.toString()));
+                  },
+                  loading: () {
+                    return Center(child: CircularProgressIndicator());
+                  },
+                ),
               ],
             ),
           ),

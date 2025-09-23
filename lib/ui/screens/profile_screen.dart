@@ -62,6 +62,7 @@ class ProfileScreen extends ConsumerWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => UpdateProfileScreen(
+                              image: data.data?.user?.profileImage,
                               firstName: data.data?.user?.firstName ?? '',
                               lastName: data.data?.user?.lastName ?? '',
                               phoneNo: data.data?.user?.phone ?? '',
@@ -80,14 +81,12 @@ class ProfileScreen extends ConsumerWidget {
                     child: CommonButton(
                       onPressed: () async {
                         await ref.read(logOutProvider.notifier).logout();
-                        if (ref.watch(logOutProvider).value?.message != null) {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => LoginScreen(),
                             ),
                           );
-                        }
                       },
                       child: Text(
                         'Logout',
