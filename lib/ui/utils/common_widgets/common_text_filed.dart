@@ -5,6 +5,7 @@ class CommonTextField extends StatelessWidget {
   final String? hintText;
   final String? labelText;
   final String? helperText;
+  final String? initialValue;
   final bool? obscureText;
   final String? obscuringCharacter;
   final TextInputType? keyboardType;
@@ -34,12 +35,15 @@ class CommonTextField extends StatelessWidget {
     this.focusNode,
     this.textInputAction,
     this.prefixIcon,
-    this.suffixIcon, this.helperText,
+    this.suffixIcon,
+    this.helperText,
+    this.initialValue,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       controller: controller,
       decoration: InputDecoration(
         hintText: hintText,

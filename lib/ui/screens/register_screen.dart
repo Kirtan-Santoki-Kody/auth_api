@@ -1,4 +1,5 @@
 import 'package:auth_api/framework/providers/register_provider.dart';
+import 'package:auth_api/ui/screens/profile_screen.dart';
 import 'package:auth_api/ui/utils/common_widgets/common_button.dart';
 import 'package:auth_api/ui/utils/common_widgets/common_text_filed.dart';
 import 'package:auth_api/ui/utils/themes/app_colors.dart';
@@ -13,7 +14,7 @@ class RegisterScreen extends ConsumerWidget {
     final formKey = GlobalKey<FormState>();
     var register = ref.read(registerProvider.notifier);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text('Register Screen')),
       body: Container(
         color: AppColors.background,
         child: Center(
@@ -160,6 +161,7 @@ class RegisterScreen extends ConsumerWidget {
                             controller: register.phone,
                             labelText: 'Phone No',
                             hintText: 'Enter your Phone no.',
+                            keyboardType: TextInputType.phone,
                             textInputAction: TextInputAction.done,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -199,9 +201,22 @@ class RegisterScreen extends ConsumerWidget {
                           ),
                           SizedBox(height: 8),
                           CommonButton(
-                            onPressed: () {
+                            onPressed: () async {
                               if (formKey.currentState!.validate()) {
-                                register.register();
+                                await register.register();
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProfileScreen(),
+                                  ),
+                                );
+                                register.userName.clear();
+                                register.firstName.clear();
+                                register.lastName.clear();
+                                register.phone.clear();
+                                register.email.clear();
+                                register.password.clear();
+                                register.confirmPassword.clear();
                               }
                             },
                             child: Text(

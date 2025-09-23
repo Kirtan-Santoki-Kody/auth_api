@@ -19,15 +19,11 @@ class RegisterRepo implements RegisterContract {
         model.toJson(),
         null,
       );
-      print('statuscode');
-      print(response.statusCode);
       if(response.statusCode == 201){
         box.put(
           'token',
           RegisterModel.fromJson(response.data).data?.tokens ?? TokensModel(),
         );
-        print(box.get('token')?.accessToken);
-        print(RegisterModel.fromJson(response.data));
         return RegisterModel.fromJson(response.data);
       }else{
         return RegisterModel();
