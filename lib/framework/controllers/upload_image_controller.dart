@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/profile_provider.dart';
 
-class UploadImageController extends AsyncNotifier<UploadImageModel>{
+class UploadImageController extends AsyncNotifier<UploadImageModel> {
   @override
   FutureOr<UploadImageModel> build() {
     return UploadImageModel();
@@ -15,13 +15,14 @@ class UploadImageController extends AsyncNotifier<UploadImageModel>{
 
   Future<void> uploadImage() async {
     state = AsyncValue.loading();
-    try{
-      var data = await UpdateProfileRepo().uploadImage(ref.watch(imageProvider));
+    try {
+      var data = await UpdateProfileRepo().uploadImage(
+        ref.watch(imageProvider),
+      );
       state = AsyncValue.data(data);
       ref.read(profileProvider.notifier).getProfile();
-    }catch (e){
+    } catch (e) {
       state = AsyncValue.error(e.toString(), StackTrace.current);
     }
   }
-
 }

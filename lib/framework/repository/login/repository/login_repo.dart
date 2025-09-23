@@ -8,30 +8,32 @@ import 'package:hive/hive.dart';
 
 import '../../register/model/token_model.dart';
 
-class LoginRepo implements LoginContract{
-
+class LoginRepo implements LoginContract {
   DioClient dioClient = DioClient();
   final box = Hive.box<TokensModel>('auth_tokens');
 
   @override
   Future<LoginModel> login(LoginRequestModel model) async {
-    try{
-      var response = await dioClient.post(ApiEndpoints.login, model.toJson(),null);
+    try {
+      var response = await dioClient.post(
+        ApiEndpoints.login,
+        model.toJson(),
+        null,
+      );
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         print(LoginModel.fromJson(response.data).data?.tokens?.accessToken);
         box.put(
           'token',
           LoginModel.fromJson(response.data).data?.tokens ?? TokensModel(),
         );
         return LoginModel.fromJson(response.data);
-      }else{
+      } else {
         throw Exception(response.data);
       }
-    }on DioException catch (e) {
+    } on DioException catch (e) {
       print(e);
       rethrow;
     }
   }
-
 }

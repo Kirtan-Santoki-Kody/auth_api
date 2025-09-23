@@ -19,16 +19,15 @@ class RegisterRepo implements RegisterContract {
         model.toJson(),
         null,
       );
-      if(response.statusCode == 201){
+      if (response.statusCode == 201) {
         box.put(
           'token',
           RegisterModel.fromJson(response.data).data?.tokens ?? TokensModel(),
         );
         return RegisterModel.fromJson(response.data);
-      }else{
+      } else {
         return RegisterModel();
       }
-
     } on DioException catch (e) {
       print(e);
       rethrow;

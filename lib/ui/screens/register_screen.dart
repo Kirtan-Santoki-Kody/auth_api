@@ -112,9 +112,10 @@ class RegisterScreen extends ConsumerWidget {
                               onPressed: () {
                                 if (ref.watch(registerPassword)) {
                                   ref.read(registerPassword.notifier).state =
-                                  false;
+                                      false;
                                 } else {
-                                  ref.read(registerPassword.notifier).state = true;
+                                  ref.read(registerPassword.notifier).state =
+                                      true;
                                 }
                               },
                               icon: Icon(
@@ -123,7 +124,9 @@ class RegisterScreen extends ConsumerWidget {
                                     : Icons.visibility_off,
                               ),
                             ),
-                            obscureText: (ref.watch(registerPassword))?true:false,
+                            obscureText: (ref.watch(registerPassword))
+                                ? true
+                                : false,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter password';
@@ -155,15 +158,26 @@ class RegisterScreen extends ConsumerWidget {
                             controller: register.confirmPassword,
                             labelText: 'Confirm Password',
                             hintText: 'Re-enter your password',
-                            obscureText: (ref.watch(registerConfirmPassword))?true:false,
+                            obscureText: (ref.watch(registerConfirmPassword))
+                                ? true
+                                : false,
                             textInputAction: TextInputAction.next,
                             suffixIcon: IconButton(
                               onPressed: () {
                                 if (ref.watch(registerConfirmPassword)) {
-                                  ref.read(registerConfirmPassword.notifier).state =
-                                  false;
+                                  ref
+                                          .read(
+                                            registerConfirmPassword.notifier,
+                                          )
+                                          .state =
+                                      false;
                                 } else {
-                                  ref.read(registerConfirmPassword.notifier).state = true;
+                                  ref
+                                          .read(
+                                            registerConfirmPassword.notifier,
+                                          )
+                                          .state =
+                                      true;
                                 }
                               },
                               icon: Icon(
@@ -231,9 +245,13 @@ class RegisterScreen extends ConsumerWidget {
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   await registerAsyncRead.register();
-                                  if(registerAsyncWatch.value?.data == null){
-                                    Center(child: Text(registerAsyncWatch.error.toString()));
-                                  }else{
+                                  if (registerAsyncWatch.value?.data == null) {
+                                    Center(
+                                      child: Text(
+                                        registerAsyncWatch.error.toString(),
+                                      ),
+                                    );
+                                  } else {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(

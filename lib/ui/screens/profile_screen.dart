@@ -1,10 +1,6 @@
-import 'dart:io';
-
-import 'package:auth_api/framework/providers/image_provider.dart';
 import 'package:auth_api/framework/providers/logout_provider.dart';
 import 'package:auth_api/framework/providers/profile_provider.dart';
 import 'package:auth_api/framework/providers/register_provider.dart';
-import 'package:auth_api/main.dart';
 import 'package:auth_api/ui/screens/login_screen.dart';
 import 'package:auth_api/ui/screens/update_profile_screen.dart';
 import 'package:auth_api/ui/utils/common_widgets/common_button.dart';
@@ -12,7 +8,6 @@ import 'package:auth_api/ui/utils/themes/app_colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});

@@ -4,19 +4,17 @@ class UploadImageModel {
   Data? data;
   DateTime? timestamp;
 
-  UploadImageModel({
-    this.success,
-    this.message,
-    this.data,
-    this.timestamp,
-  });
+  UploadImageModel({this.success, this.message, this.data, this.timestamp});
 
-  factory UploadImageModel.fromJson(Map<String, dynamic> json) => UploadImageModel(
-    success: json["success"],
-    message: json["message"],
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
-    timestamp: json["timestamp"] == null ? null : DateTime.parse(json["timestamp"]),
-  );
+  factory UploadImageModel.fromJson(Map<String, dynamic> json) =>
+      UploadImageModel(
+        success: json["success"],
+        message: json["message"],
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        timestamp: json["timestamp"] == null
+            ? null
+            : DateTime.parse(json["timestamp"]),
+      );
 
   Map<String, dynamic> toJson() => {
     "success": success,
@@ -30,14 +28,13 @@ class Data {
   String? message;
   ProfileImage? profileImage;
 
-  Data({
-    this.message,
-    this.profileImage,
-  });
+  Data({this.message, this.profileImage});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     message: json["message"],
-    profileImage: json["profile_image"] == null ? null : ProfileImage.fromJson(json["profile_image"]),
+    profileImage: json["profile_image"] == null
+        ? null
+        : ProfileImage.fromJson(json["profile_image"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -51,11 +48,7 @@ class ProfileImage {
   int? width;
   int? height;
 
-  ProfileImage({
-    this.url,
-    this.width,
-    this.height,
-  });
+  ProfileImage({this.url, this.width, this.height});
 
   factory ProfileImage.fromJson(Map<String, dynamic> json) => ProfileImage(
     url: json["url"],

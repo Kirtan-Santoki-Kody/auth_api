@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../repository/register/model/register_request_model.dart';
 import '../repository/register/repository/register_repo.dart';
 
-class RegisterAsyncController extends AsyncNotifier<RegisterModel>{
+class RegisterAsyncController extends AsyncNotifier<RegisterModel> {
   @override
   FutureOr<RegisterModel> build() {
     return RegisterModel();
@@ -15,7 +15,7 @@ class RegisterAsyncController extends AsyncNotifier<RegisterModel>{
 
   Future<void> register() async {
     state = AsyncValue.loading();
-    try{
+    try {
       var register = ref.read(registerProvider.notifier);
       var data = await RegisterRepo().register(
         RegisterRequestModel(
@@ -30,9 +30,8 @@ class RegisterAsyncController extends AsyncNotifier<RegisterModel>{
         ),
       );
       state = AsyncValue.data(data);
-    }catch (e){
+    } catch (e) {
       state = AsyncValue.error(e.toString(), StackTrace.current);
     }
   }
-
 }

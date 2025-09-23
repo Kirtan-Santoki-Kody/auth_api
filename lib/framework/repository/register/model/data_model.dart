@@ -17,7 +17,9 @@ class DataModel {
   factory DataModel.fromJson(Map<String, dynamic> json) => DataModel(
     message: json["message"],
     user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
-    tokens: json["tokens"] == null ? null : TokensModel.fromJson(json["tokens"]),
+    tokens: json["tokens"] == null
+        ? null
+        : TokensModel.fromJson(json["tokens"]),
     emailVerificationRequired: json["email_verification_required"],
   );
 

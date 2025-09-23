@@ -6,18 +6,15 @@ class LoginModel {
   Data? data;
   DateTime? timestamp;
 
-  LoginModel({
-    this.success,
-    this.message,
-    this.data,
-    this.timestamp,
-  });
+  LoginModel({this.success, this.message, this.data, this.timestamp});
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
     success: json["success"],
     message: json["message"],
     data: json["data"] == null ? null : Data.fromJson(json["data"]),
-    timestamp: json["timestamp"] == null ? null : DateTime.parse(json["timestamp"]),
+    timestamp: json["timestamp"] == null
+        ? null
+        : DateTime.parse(json["timestamp"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -33,16 +30,14 @@ class Data {
   User? user;
   TokensModel? tokens;
 
-  Data({
-    this.message,
-    this.user,
-    this.tokens,
-  });
+  Data({this.message, this.user, this.tokens});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     message: json["message"],
     user: json["user"] == null ? null : User.fromJson(json["user"]),
-    tokens: json["tokens"] == null ? null : TokensModel.fromJson(json["tokens"]),
+    tokens: json["tokens"] == null
+        ? null
+        : TokensModel.fromJson(json["tokens"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -94,9 +89,15 @@ class User {
     profileImage: json["profile_image"],
     isActive: json["is_active"],
     isVerified: json["is_verified"],
-    lastLogin: json["last_login"] == null ? null : DateTime.parse(json["last_login"]),
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    lastLogin: json["last_login"] == null
+        ? null
+        : DateTime.parse(json["last_login"]),
+    createdAt: json["created_at"] == null
+        ? null
+        : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null
+        ? null
+        : DateTime.parse(json["updated_at"]),
   );
 
   Map<String, dynamic> toJson() => {

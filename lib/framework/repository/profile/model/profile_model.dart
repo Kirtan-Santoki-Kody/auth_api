@@ -4,18 +4,15 @@ class ProfileModel {
   Data? data;
   DateTime? timestamp;
 
-  ProfileModel({
-    this.success,
-    this.message,
-    this.data,
-    this.timestamp,
-  });
+  ProfileModel({this.success, this.message, this.data, this.timestamp});
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
     success: json["success"],
     message: json["message"],
     data: json["data"] == null ? null : Data.fromJson(json["data"]),
-    timestamp: json["timestamp"] == null ? null : DateTime.parse(json["timestamp"]),
+    timestamp: json["timestamp"] == null
+        ? null
+        : DateTime.parse(json["timestamp"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -30,19 +27,20 @@ class Data {
   User? user;
   List<dynamic>? addresses;
 
-  Data({
-    this.user,
-    this.addresses,
-  });
+  Data({this.user, this.addresses});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     user: json["user"] == null ? null : User.fromJson(json["user"]),
-    addresses: json["addresses"] == null ? [] : List<dynamic>.from(json["addresses"]!.map((x) => x)),
+    addresses: json["addresses"] == null
+        ? []
+        : List<dynamic>.from(json["addresses"]!.map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {
     "user": user?.toJson(),
-    "addresses": addresses == null ? [] : List<dynamic>.from(addresses!.map((x) => x)),
+    "addresses": addresses == null
+        ? []
+        : List<dynamic>.from(addresses!.map((x) => x)),
   };
 }
 
@@ -84,13 +82,19 @@ class User {
     firstName: json["first_name"],
     lastName: json["last_name"],
     phone: json["phone"],
-    dateOfBirth: json["date_of_birth"] == null ? null : DateTime.parse(json["date_of_birth"]),
+    dateOfBirth: json["date_of_birth"] == null
+        ? null
+        : DateTime.parse(json["date_of_birth"]),
     profileImage: json["profile_image"],
     isActive: json["is_active"],
     isVerified: json["is_verified"],
     lastLogin: json["last_login"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"] == null
+        ? null
+        : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null
+        ? null
+        : DateTime.parse(json["updated_at"]),
   );
 
   Map<String, dynamic> toJson() => {

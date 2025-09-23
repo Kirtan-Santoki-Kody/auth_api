@@ -36,13 +36,19 @@ class UserModel {
     firstName: json["first_name"],
     lastName: json["last_name"],
     phone: json["phone"],
-    dateOfBirth: json["date_of_birth"] == null ? null : DateTime.parse(json["date_of_birth"]),
+    dateOfBirth: json["date_of_birth"] == null
+        ? null
+        : DateTime.parse(json["date_of_birth"]),
     profileImage: json["profile_image"],
     isActive: json["is_active"],
     isVerified: json["is_verified"],
     lastLogin: json["last_login"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"] == null
+        ? null
+        : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null
+        ? null
+        : DateTime.parse(json["updated_at"]),
   );
 
   Map<String, dynamic> toJson() => {

@@ -15,15 +15,15 @@ class LoginController extends AsyncNotifier<LoginModel> {
 
   Future<void> login() async {
     state = AsyncValue.loading();
-    try{
+    try {
       var data = await LoginRepo().login(
-          LoginRequestModel(
-            identifier: emailController.text,
-            password: passwordController.text,
-          ),
+        LoginRequestModel(
+          identifier: emailController.text,
+          password: passwordController.text,
+        ),
       );
       state = AsyncValue.data(data);
-    } catch (e){
+    } catch (e) {
       state = AsyncValue.error(e.toString(), StackTrace.current);
     }
   }
@@ -32,6 +32,4 @@ class LoginController extends AsyncNotifier<LoginModel> {
   FutureOr<LoginModel> build() {
     return LoginModel();
   }
-
-
 }

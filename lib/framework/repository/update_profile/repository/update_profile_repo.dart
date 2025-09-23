@@ -14,7 +14,9 @@ class UpdateProfileRepo implements UpdateProfileContract {
   final box = Hive.box<TokensModel>('auth_tokens');
 
   @override
-  Future<UpdateProfileModel> updateProfile(UpdateProfileRequestModel model) async {
+  Future<UpdateProfileModel> updateProfile(
+    UpdateProfileRequestModel model,
+  ) async {
     try {
       var response = await dioClient.put(
         ApiEndpoints.updateProfile,
@@ -34,24 +36,22 @@ class UpdateProfileRepo implements UpdateProfileContract {
   }
 
   @override
-  Future<UploadImageModel> uploadImage(String image)async {
-    try{
+  Future<UploadImageModel> uploadImage(String image) async {
+    try {
       var response = await dioClient.postFormData(
         ApiEndpoints.updateProfileImage,
-        {'profile_image':await MultipartFile.fromFile(image)},
+        {'profile_image': await MultipartFile.fromFile(image)},
         {'Authorization': 'Bearer ${box.get('token')?.accessToken}'},
       );
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return UploadImageModel.fromJson(response.data);
-      }else{
+      } else {
         return UploadImageModel();
       }
-    }on DioException catch (e){
+    } on DioException catch (e) {
       print(e);
       rethrow;
     }
   }
-
-
 }

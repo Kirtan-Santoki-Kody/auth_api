@@ -4,19 +4,17 @@ class UpdateProfileModel {
   Data? data;
   DateTime? timestamp;
 
-  UpdateProfileModel({
-    this.success,
-    this.message,
-    this.data,
-    this.timestamp,
-  });
+  UpdateProfileModel({this.success, this.message, this.data, this.timestamp});
 
-  factory UpdateProfileModel.fromJson(Map<String, dynamic> json) => UpdateProfileModel(
-    success: json["success"],
-    message: json["message"],
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
-    timestamp: json["timestamp"] == null ? null : DateTime.parse(json["timestamp"]),
-  );
+  factory UpdateProfileModel.fromJson(Map<String, dynamic> json) =>
+      UpdateProfileModel(
+        success: json["success"],
+        message: json["message"],
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        timestamp: json["timestamp"] == null
+            ? null
+            : DateTime.parse(json["timestamp"]),
+      );
 
   Map<String, dynamic> toJson() => {
     "success": success,
@@ -30,20 +28,14 @@ class Data {
   String? message;
   User? user;
 
-  Data({
-    this.message,
-    this.user,
-  });
+  Data({this.message, this.user});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     message: json["message"],
     user: json["user"] == null ? null : User.fromJson(json["user"]),
   );
 
-  Map<String, dynamic> toJson() => {
-    "message": message,
-    "user": user?.toJson(),
-  };
+  Map<String, dynamic> toJson() => {"message": message, "user": user?.toJson()};
 }
 
 class User {
@@ -84,13 +76,21 @@ class User {
     firstName: json["first_name"],
     lastName: json["last_name"],
     phone: json["phone"],
-    dateOfBirth: json["date_of_birth"] == null ? null : DateTime.parse(json["date_of_birth"]),
+    dateOfBirth: json["date_of_birth"] == null
+        ? null
+        : DateTime.parse(json["date_of_birth"]),
     profileImage: json["profile_image"],
     isActive: json["is_active"],
     isVerified: json["is_verified"],
-    lastLogin: json["last_login"] == null ? null : DateTime.parse(json["last_login"]),
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    lastLogin: json["last_login"] == null
+        ? null
+        : DateTime.parse(json["last_login"]),
+    createdAt: json["created_at"] == null
+        ? null
+        : DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] == null
+        ? null
+        : DateTime.parse(json["updated_at"]),
   );
 
   Map<String, dynamic> toJson() => {

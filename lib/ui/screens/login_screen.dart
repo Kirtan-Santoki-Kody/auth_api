@@ -63,7 +63,9 @@ class LoginScreen extends ConsumerWidget {
                             controller: loginRead.passwordController,
                             labelText: 'Password',
                             hintText: 'Enter your password',
-                            obscureText: (ref.watch(loginPassword))?true:false,
+                            obscureText: (ref.watch(loginPassword))
+                                ? true
+                                : false,
                             textInputAction: TextInputAction.next,
                             suffixIcon: IconButton(
                               onPressed: () {

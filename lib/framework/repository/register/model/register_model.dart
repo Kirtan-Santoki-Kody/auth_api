@@ -6,18 +6,15 @@ class RegisterModel {
   DataModel? data;
   DateTime? timestamp;
 
-  RegisterModel({
-    this.success,
-    this.message,
-    this.data,
-    this.timestamp,
-  });
+  RegisterModel({this.success, this.message, this.data, this.timestamp});
 
   factory RegisterModel.fromJson(Map<String, dynamic> json) => RegisterModel(
     success: json["success"],
     message: json["message"],
     data: json["data"] == null ? null : DataModel.fromJson(json["data"]),
-    timestamp: json["timestamp"] == null ? null : DateTime.parse(json["timestamp"]),
+    timestamp: json["timestamp"] == null
+        ? null
+        : DateTime.parse(json["timestamp"]),
   );
 
   Map<String, dynamic> toJson() => {
