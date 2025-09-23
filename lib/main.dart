@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: (Hive.box<TokensModel>('auth_tokens').isEmpty)?LoginScreen():ProfileScreen(),
     );
   }

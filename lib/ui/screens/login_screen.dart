@@ -76,23 +76,30 @@ class LoginScreen extends ConsumerWidget {
                             },
                           ),
                           SizedBox(height: 20),
-                          CommonButton(
-                            onPressed: () async {
-                              if (formKey.currentState!.validate()) {
-                                await loginRead.login();
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ProfileScreen(),
-                                  ),
-                                );
-                                loginRead.emailController.clear();
-                                loginRead.passwordController.clear();
-                              }
-                            },
-                            child: Text(
-                              'Login',
-                              style: TextStyle(color: AppColors.white),
+                          Visibility(
+                            visible: (loginWatch.isLoading)?false:true,
+                            child: CommonButton(
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  await loginRead.login();
+                                  if(loginWatch.hasError){
+                                    Center(child: Text(loginWatch.error.toString()));
+                                  }else{
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProfileScreen(),
+                                      ),
+                                    );
+                                    loginRead.emailController.clear();
+                                    loginRead.passwordController.clear();
+                                  }
+                                }
+                              },
+                              child: Text(
+                                'Login',
+                                style: TextStyle(color: AppColors.white),
+                              ),
                             ),
                           ),
                           SizedBox(height: 20),

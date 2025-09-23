@@ -14,8 +14,6 @@ class RegisterController extends Notifier<DateTime> {
   TextEditingController phone = TextEditingController();
   DateTime birthDate = DateTime.now();
 
-  UIState registerState = UIState();
-
   @override
   DateTime build() {
     return birthDate;
@@ -23,22 +21,5 @@ class RegisterController extends Notifier<DateTime> {
 
   void updateDate(DateTime date){
     state = date;
-  }
-
-  Future<void> register() async {
-    registerState.isLoading = true;
-    await RegisterRepo().register(
-      RegisterRequestModel(
-        confirmPassword: confirmPassword.text,
-        dateOfBirth: state,
-        email: email.text,
-        firstName: firstName.text,
-        lastName: lastName.text,
-        password: password.text,
-        phone: phone.text,
-        username: userName.text,
-      ),
-    );
-    registerState.isLoading = false;
   }
 }

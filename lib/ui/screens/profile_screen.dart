@@ -105,21 +105,26 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   ),
                   SizedBox(height: 15),
-                  Align(
-                    alignment: Alignment.center,
-                    child: CommonButton(
-                      onPressed: () async {
-                        await ref.read(logOutProvider.notifier).logout();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Logout',
-                        style: TextStyle(color: AppColors.white),
+                  Visibility(
+                    visible: (ref.watch(logOutProvider).isLoading)
+                        ? false
+                        : true,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: CommonButton(
+                        onPressed: () async {
+                          await ref.read(logOutProvider.notifier).logout();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Logout',
+                          style: TextStyle(color: AppColors.white),
+                        ),
                       ),
                     ),
                   ),

@@ -116,7 +116,7 @@ class UpdateProfileScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      'Birth Date: ${ref.watch(registerProvider).toString().substring(0, 11)}'
+                      'Birth Date: ${ref.watch(registerProvider).toString().substring(0, 11)}',
                     ),
                     CommonButton(
                       onPressed: () async {
@@ -137,24 +137,39 @@ class UpdateProfileScreen extends ConsumerWidget {
                   ],
                 ),
                 SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.center,
-                  child: CommonButton(
-                    onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        if (ref.watch(imageProvider).isNotEmpty) {
-                          await ref
-                              .read(uploadImageProvider.notifier)
-                              .uploadImage();
+                Visibility(
+                  visible: (uploadImage.isLoading || updateWatch.isLoading)
+                      ? false
+                      : true,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: CommonButton(
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          if (ref.watch(imageProvider).isNotEmpty) {
+                            await ref
+                                .read(uploadImageProvider.notifier)
+                                .uploadImage();
+                          }
+                          await updateRead.updateProfile();
+                          if (updateWatch.hasError || uploadImage.hasError) {
+                            Center(
+                              child: Text(
+                                (updateWatch.hasError)
+                                    ? updateWatch.error.toString()
+                                    : uploadImage.error.toString(),
+                              ),
+                            );
+                          } else {
+                            Navigator.pop(context);
+                            ref.invalidate(updateProfileProvider);
+                          }
                         }
-                        await updateRead.updateProfile();
-                        Navigator.pop(context);
-                        ref.invalidate(updateProfileProvider);
-                      }
-                    },
-                    child: Text(
-                      'Update',
-                      style: TextStyle(color: AppColors.white),
+                      },
+                      child: Text(
+                        'Update',
+                        style: TextStyle(color: AppColors.white),
+                      ),
                     ),
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:auth_api/framework/providers/register_async_provider.dart';
 import 'package:auth_api/framework/providers/register_provider.dart';
 import 'package:auth_api/ui/screens/profile_screen.dart';
 import 'package:auth_api/ui/utils/common_widgets/common_button.dart';
@@ -13,6 +14,8 @@ class RegisterScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormState>();
     var register = ref.read(registerProvider.notifier);
+    var registerAsyncWatch = ref.watch(registerAsyncProvider);
+    var registerAsyncRead = ref.read(registerAsyncProvider.notifier);
     return Scaffold(
       appBar: AppBar(title: Text('Register Screen')),
       body: Container(
@@ -197,29 +200,49 @@ class RegisterScreen extends ConsumerWidget {
                             ],
                           ),
                           SizedBox(height: 8),
-                          CommonButton(
-                            onPressed: () async {
-                              if (formKey.currentState!.validate()) {
-                                await register.register();
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ProfileScreen(),
-                                  ),
-                                );
-                                register.userName.clear();
-                                register.firstName.clear();
-                                register.lastName.clear();
-                                register.phone.clear();
-                                register.email.clear();
-                                register.password.clear();
-                                register.confirmPassword.clear();
-                              }
-                            },
-                            child: Text(
-                              'Register',
-                              style: TextStyle(color: AppColors.white),
+                          Visibility(
+                            visible: (registerAsyncWatch.isLoading)
+                                ? false
+                                : true,
+                            child: CommonButton(
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  await registerAsyncRead.register();
+                                  if(registerAsyncWatch.hasError){
+                                    Center(child: Text(registerAsyncWatch.error.toString()));
+                                  }else{
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProfileScreen(),
+                                      ),
+                                    );
+                                    register.userName.clear();
+                                    register.firstName.clear();
+                                    register.lastName.clear();
+                                    register.phone.clear();
+                                    register.email.clear();
+                                    register.password.clear();
+                                    register.confirmPassword.clear();
+                                  }
+                                }
+                              },
+                              child: Text(
+                                'Register',
+                                style: TextStyle(color: AppColors.white),
+                              ),
                             ),
+                          ),
+                          registerAsyncWatch.when(
+                            data: (data) {
+                              return Container();
+                            },
+                            error: (err, stack) {
+                              return Center(child: Text(err.toString()));
+                            },
+                            loading: () {
+                              return Center(child: CircularProgressIndicator());
+                            },
                           ),
                         ],
                       ),
