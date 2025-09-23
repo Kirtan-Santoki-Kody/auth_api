@@ -118,7 +118,7 @@ class RegisterScreen extends ConsumerWidget {
                                 }
                               },
                               icon: Icon(
-                                (ref.watch(loginPassword))
+                                (ref.watch(registerPassword))
                                     ? Icons.visibility
                                     : Icons.visibility_off,
                               ),
@@ -167,7 +167,7 @@ class RegisterScreen extends ConsumerWidget {
                                 }
                               },
                               icon: Icon(
-                                (ref.watch(loginPassword))
+                                (ref.watch(registerConfirmPassword))
                                     ? Icons.visibility
                                     : Icons.visibility_off,
                               ),
@@ -231,7 +231,7 @@ class RegisterScreen extends ConsumerWidget {
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   await registerAsyncRead.register();
-                                  if(registerAsyncWatch.hasError){
+                                  if(registerAsyncWatch.value?.data == null){
                                     Center(child: Text(registerAsyncWatch.error.toString()));
                                   }else{
                                     Navigator.pushReplacement(
