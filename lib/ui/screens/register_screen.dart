@@ -1,3 +1,4 @@
+import 'package:auth_api/framework/providers/hide_show_password_provider.dart';
 import 'package:auth_api/framework/providers/register_async_provider.dart';
 import 'package:auth_api/framework/providers/register_provider.dart';
 import 'package:auth_api/ui/screens/profile_screen.dart';
@@ -108,10 +109,21 @@ class RegisterScreen extends ConsumerWidget {
                                 'Password must be at least 8 characters long and Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character',
                             textInputAction: TextInputAction.next,
                             suffixIcon: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.visibility),
+                              onPressed: () {
+                                if (ref.watch(registerPassword)) {
+                                  ref.read(registerPassword.notifier).state =
+                                  false;
+                                } else {
+                                  ref.read(registerPassword.notifier).state = true;
+                                }
+                              },
+                              icon: Icon(
+                                (ref.watch(loginPassword))
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
                             ),
-                            obscureText: true,
+                            obscureText: (ref.watch(registerPassword))?true:false,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter password';
@@ -143,11 +155,22 @@ class RegisterScreen extends ConsumerWidget {
                             controller: register.confirmPassword,
                             labelText: 'Confirm Password',
                             hintText: 'Re-enter your password',
-                            obscureText: true,
+                            obscureText: (ref.watch(registerConfirmPassword))?true:false,
                             textInputAction: TextInputAction.next,
                             suffixIcon: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.visibility),
+                              onPressed: () {
+                                if (ref.watch(registerConfirmPassword)) {
+                                  ref.read(registerConfirmPassword.notifier).state =
+                                  false;
+                                } else {
+                                  ref.read(registerConfirmPassword.notifier).state = true;
+                                }
+                              },
+                              icon: Icon(
+                                (ref.watch(loginPassword))
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {

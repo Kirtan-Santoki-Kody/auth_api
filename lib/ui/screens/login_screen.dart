@@ -1,3 +1,4 @@
+import 'package:auth_api/framework/providers/hide_show_password_provider.dart';
 import 'package:auth_api/framework/providers/login_provider.dart';
 import 'package:auth_api/ui/screens/profile_screen.dart';
 import 'package:auth_api/ui/screens/register_screen.dart';
@@ -62,29 +63,62 @@ class LoginScreen extends ConsumerWidget {
                             controller: loginRead.passwordController,
                             labelText: 'Password',
                             hintText: 'Enter your password',
-                            obscureText: true,
+                            obscureText: (ref.watch(loginPassword))?true:false,
                             textInputAction: TextInputAction.next,
                             suffixIcon: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.visibility),
+                              onPressed: () {
+                                if (ref.watch(loginPassword)) {
+                                  ref.read(loginPassword.notifier).state =
+                                      false;
+                                } else {
+                                  ref.read(loginPassword.notifier).state = true;
+                                }
+                              },
+                              icon: Icon(
+                                (ref.watch(loginPassword))
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter password';
+                              } else if (value.length < 8) {
+                                return 'Password is not 8 characters long.';
+                              } else if (!RegExp(
+                                r'''^(?=.*[A-Z])''',
+                              ).hasMatch(value)) {
+                                return 'Password must contain at least one uppercase letter';
+                              } else if (!RegExp(
+                                r'''^(?=.*[a-z])''',
+                              ).hasMatch(value)) {
+                                return 'Password must contain at least one lower letter';
+                              } else if (!RegExp(
+                                r'''^(?=.*?[0-9])''',
+                              ).hasMatch(value)) {
+                                return 'Password must contain at least one number';
+                              } else if (!RegExp(
+                                r'''^(?=.*?[!@#\$&*~])''',
+                              ).hasMatch(value)) {
+                                return 'Password must contain at least one special character';
                               }
                               return null;
                             },
                           ),
                           SizedBox(height: 20),
                           Visibility(
-                            visible: (loginWatch.isLoading)?false:true,
+                            visible: (loginWatch.isLoading) ? false : true,
                             child: CommonButton(
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   await loginRead.login();
-                                  if(loginWatch.value?.data == null){
-                                    Center(child: Text(loginWatch.value!.message.toString()));
-                                  }else{
+                                  if (loginWatch.value?.data == null) {
+                                    Center(
+                                      child: Text(
+                                        loginWatch.value!.message.toString(),
+                                      ),
+                                    );
+                                  } else {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
