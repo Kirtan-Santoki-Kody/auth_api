@@ -17,6 +17,7 @@ class LoginScreen extends ConsumerWidget {
     final formKey = GlobalKey<FormState>();
     var loginRead = ref.read(loginProvider.notifier);
     var loginWatch = ref.watch(loginProvider);
+    bool login = false;
     return Scaffold(
       appBar: AppBar(title: Text('Login Screen')),
       body: Container(
@@ -108,19 +109,35 @@ class LoginScreen extends ConsumerWidget {
                             },
                           ),
                           SizedBox(height: 20),
+                          loginWatch.when(
+                            data: (data) {
+                              print('message');
+                              print(data.message);
+                              if(data.message != null){
+                                login = true;
+                              }
+                              return Visibility(visible: false,child: Container());
+                            },
+                            error: (err, stack) {
+                              login = false;
+                              return Column(
+                                children: [
+                                  Center(child: Text(err.toString())),
+                                  SizedBox(height: 20,)
+                                ],
+                              );
+                            },
+                            loading: () {
+                              return Center(child: CircularProgressIndicator());
+                            },
+                          ),
                           Visibility(
                             visible: (loginWatch.isLoading) ? false : true,
                             child: CommonButton(
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   await loginRead.login();
-                                  if (loginWatch.value?.data == null) {
-                                    Center(
-                                      child: Text(
-                                        loginWatch.value!.message.toString(),
-                                      ),
-                                    );
-                                  } else {
+                                  if (login) {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
@@ -137,18 +154,6 @@ class LoginScreen extends ConsumerWidget {
                                 style: TextStyle(color: AppColors.white),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 20),
-                          loginWatch.when(
-                            data: (data) {
-                              return Container();
-                            },
-                            error: (err, stack) {
-                              return Center(child: Text(err.toString()));
-                            },
-                            loading: () {
-                              return Center(child: CircularProgressIndicator());
-                            },
                           ),
                         ],
                       ),

@@ -6,6 +6,8 @@ import 'package:auth_api/framework/repository/profile/model/profile_model.dart';
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 
+import '../../../providers/network/dio_exception/dio_exception.dart';
+import '../../register/model/register_error_model.dart';
 import '../../register/model/token_model.dart';
 
 class ProfileRepo implements ProfileContract {
@@ -22,11 +24,10 @@ class ProfileRepo implements ProfileContract {
       if (response.statusCode == 200) {
         return ProfileModel.fromJson(response.data);
       } else {
-        return ProfileModel();
+        throw Exception(RegisterErrorModel.fromJson(response.data));
       }
     } on DioException catch (e) {
-      print(e);
-      rethrow;
+      throw Exception(MyDioExceptions().exceptions(e));
     }
   }
 
@@ -43,11 +44,10 @@ class ProfileRepo implements ProfileContract {
         await box.delete('token');
         return LogoutModel.fromJson(response.data);
       } else {
-        return LogoutModel.fromJson(response.data);
+        throw Exception(RegisterErrorModel.fromJson(response.data));
       }
     } on DioException catch (e) {
-      print(e);
-      rethrow;
+      throw Exception(MyDioExceptions().exceptions(e));
     }
   }
 }

@@ -7,6 +7,8 @@ import 'package:auth_api/framework/repository/update_profile/model/upload_image_
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 
+import '../../../providers/network/dio_exception/dio_exception.dart';
+import '../../register/model/register_error_model.dart';
 import '../../register/model/token_model.dart';
 
 class UpdateProfileRepo implements UpdateProfileContract {
@@ -27,11 +29,10 @@ class UpdateProfileRepo implements UpdateProfileContract {
       if (response.statusCode == 200) {
         return UpdateProfileModel.fromJson(response.data);
       } else {
-        return UpdateProfileModel();
+        throw Exception(RegisterErrorModel.fromJson(response.data));
       }
     } on DioException catch (e) {
-      print(e);
-      rethrow;
+      throw Exception(MyDioExceptions().exceptions(e));
     }
   }
 
@@ -47,11 +48,10 @@ class UpdateProfileRepo implements UpdateProfileContract {
       if (response.statusCode == 200) {
         return UploadImageModel.fromJson(response.data);
       } else {
-        return UploadImageModel();
+        throw Exception(RegisterErrorModel.fromJson(response.data));
       }
     } on DioException catch (e) {
-      print(e);
-      rethrow;
+      throw Exception(MyDioExceptions().exceptions(e));
     }
   }
 }

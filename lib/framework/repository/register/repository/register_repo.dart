@@ -7,6 +7,9 @@ import 'package:auth_api/framework/repository/register/model/token_model.dart';
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 
+import '../../../providers/network/dio_exception/dio_exception.dart';
+import '../model/register_error_model.dart';
+
 class RegisterRepo implements RegisterContract {
   DioClient dioClient = DioClient();
   final box = Hive.box<TokensModel>('auth_tokens');
@@ -26,11 +29,10 @@ class RegisterRepo implements RegisterContract {
         );
         return RegisterModel.fromJson(response.data);
       } else {
-        return RegisterModel();
+        throw Exception(RegisterErrorModel.fromJson(response.data));
       }
     } on DioException catch (e) {
-      print(e);
-      rethrow;
+      throw Exception(MyDioExceptions().exceptions(e));
     }
   }
 }

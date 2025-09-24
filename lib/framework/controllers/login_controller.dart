@@ -11,7 +11,7 @@ class LoginController extends AsyncNotifier<LoginModel> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  UIState<LoginModel> loginState = UIState();
+  // UIState<LoginModel> loginState = UIState();
 
   Future<void> login() async {
     state = AsyncValue.loading();
