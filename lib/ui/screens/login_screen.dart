@@ -1,6 +1,5 @@
 import 'package:auth_api/framework/providers/hide_show_password_provider.dart';
 import 'package:auth_api/framework/providers/login_provider.dart';
-import 'package:auth_api/ui/screens/profile_screen.dart';
 import 'package:auth_api/ui/screens/register_screen.dart';
 import 'package:auth_api/ui/utils/common_widgets/common_button.dart';
 import 'package:auth_api/ui/utils/common_widgets/common_text_filed.dart';
@@ -17,7 +16,6 @@ class LoginScreen extends ConsumerWidget {
     final formKey = GlobalKey<FormState>();
     var loginRead = ref.read(loginProvider.notifier);
     var loginWatch = ref.watch(loginProvider);
-    bool login = false;
     return Scaffold(
       appBar: AppBar(title: Text('Login Screen')),
       body: Container(
@@ -111,15 +109,9 @@ class LoginScreen extends ConsumerWidget {
                           SizedBox(height: 20),
                           loginWatch.when(
                             data: (data) {
-                              print('message');
-                              print(data.message);
-                              if(data.message != null){
-                                login = true;
-                              }
-                              return Visibility(visible: false,child: Container());
+                              return Center();
                             },
                             error: (err, stack) {
-                              login = false;
                               return Column(
                                 children: [
                                   Center(child: Text(err.toString())),
@@ -137,16 +129,6 @@ class LoginScreen extends ConsumerWidget {
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   await loginRead.login();
-                                  if (login) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ProfileScreen(),
-                                      ),
-                                    );
-                                    loginRead.emailController.clear();
-                                    loginRead.passwordController.clear();
-                                  }
                                 }
                               },
                               child: Text(

@@ -1,7 +1,6 @@
 import 'package:auth_api/framework/providers/hide_show_password_provider.dart';
 import 'package:auth_api/framework/providers/register_async_provider.dart';
 import 'package:auth_api/framework/providers/register_provider.dart';
-import 'package:auth_api/ui/screens/profile_screen.dart';
 import 'package:auth_api/ui/utils/common_widgets/common_button.dart';
 import 'package:auth_api/ui/utils/common_widgets/common_text_filed.dart';
 import 'package:auth_api/ui/utils/themes/app_colors.dart';
@@ -245,27 +244,6 @@ class RegisterScreen extends ConsumerWidget {
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   await registerAsyncRead.register();
-                                  if (registerAsyncWatch.value?.data == null) {
-                                    Center(
-                                      child: Text(
-                                        registerAsyncWatch.error.toString(),
-                                      ),
-                                    );
-                                  } else {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ProfileScreen(),
-                                      ),
-                                    );
-                                    register.userName.clear();
-                                    register.firstName.clear();
-                                    register.lastName.clear();
-                                    register.phone.clear();
-                                    register.email.clear();
-                                    register.password.clear();
-                                    register.confirmPassword.clear();
-                                  }
                                 }
                               },
                               child: Text(
@@ -276,7 +254,7 @@ class RegisterScreen extends ConsumerWidget {
                           ),
                           registerAsyncWatch.when(
                             data: (data) {
-                              return Container();
+                              return Center();
                             },
                             error: (err, stack) {
                               return Center(child: Text(err.toString()));

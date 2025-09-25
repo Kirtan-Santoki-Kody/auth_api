@@ -1,5 +1,6 @@
 import 'package:auth_api/ui/screens/login_screen.dart';
 import 'package:auth_api/ui/screens/profile_screen.dart';
+import 'package:auth_api/ui/utils/global_keys/navigator_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: GlobalNavigatorKey.navigatorKey,
       debugShowCheckedModeBanner: false,
       home: (Hive.box<TokensModel>('auth_tokens').isEmpty)
           ? LoginScreen()

@@ -24,7 +24,6 @@ class LoginRepo implements LoginContract {
       );
 
       if (response.statusCode == 200) {
-        print(LoginModel.fromJson(response.data).data?.tokens?.accessToken);
         box.put(
           'token',
           LoginModel.fromJson(response.data).data?.tokens ?? TokensModel(),
